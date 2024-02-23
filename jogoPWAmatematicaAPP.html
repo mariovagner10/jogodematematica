@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jogo de Matemática - PWA</title>
+<link rel="manifest" href="manifest.json">
+</head>
+<body>
+<h1>Jogo de Matemática - Multiplicação</h1>
+<div id="question"></div>
+<input type="number" id="answer" placeholder="Sua resposta">
+<button onclick="checkAnswer()">Enviar</button>
+<div id="result"></div>
+
+<script>
+    var question = document.getElementById('question');
+    var answerInput = document.getElementById('answer');
+    var resultDiv = document.getElementById('result');
+    var score = 0;
+    var totalQuestions = 5;
+    var currentQuestion = 0;
+    var correctAnswer;
+
+    function generateQuestion() {
+        var num1 = Math.floor(Math.random() * 10) + 1;
+        var num2 = Math.floor(Math.random() * 10) + 1;
+        question.textContent = 'Quanto é ' + num1 + ' x ' + num2 + '?';
+        correctAnswer = num1 * num2;
+    }
+
+    function checkAnswer() {
+        var userAnswer = parseInt(answerInput.value);
+        if (!isNaN(userAnswer)) {
+            if (userAnswer === correctAnswer) {
+                resultDiv.textContent = 'Correto!';
+                score++;
+            } else {
+                resultDiv.textContent = 'Incorreto. A resposta correta era ' + correctAnswer;
+            }
+            currentQuestion++;
+            if (currentQuestion < totalQuestions) {
+                answerInput.value = '';
+                resultDiv.textContent += ' Próxima pergunta:';
+                generateQuestion();
+            } else {
+                resultDiv.textContent = 'Seu placar final é ' + score + '/' + totalQuestions;
+                document.getElementById('answer').style.display = 'none';
+                document.getElementsByTagName('button')[0].style.display = 'none';
+            }
+        } else {
+            alert('Por favor, insira uma resposta válida.');
+        }
+    }
+
+    generateQuestion();
+</script>
+</body>
+</html>
